@@ -31,8 +31,9 @@ def get_correlations(data):
         correlations[col_a + " vs. " + col_b] = pearsonr(data.loc[:, col_a], data.loc[:, col_b])
 
     result = pd.DataFrame.from_dict(correlations, orient="index")
-    result.columns = ["PCC", "p-value"]
-    result = result[(result["PCC"] >= 0.6)]
-    result = result.sort_values("PCC", ascending=False)
+    result.columns = ["Pearson's r", "p-value"]
+    result = result[(result["Pearson's r"] >= 0.6)]
+    result = result.sort_values("Pearson's r", ascending=False)
+    result.loc[(result["p-value"] < 0.01), "p-value"] = "< 0.01"
     
     return result
